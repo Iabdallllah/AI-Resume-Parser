@@ -84,12 +84,11 @@ class ResumeSchema(BaseModel):
 # ==========================================
 @st.cache_resource(show_spinner=False)
 def load_ai_model():
-    # قراءة المفتاح بشكل آمن من إعدادات Streamlit
     groq_api_key = st.secrets["GROQ_API_KEY"]
     
     llm = ChatGroq(
         temperature=0.1, 
-        model_name="mixtral-8x7b-32768",
+        model_name="llama-3.3-70b-versatile",  # الموديل المحدث والمدعوم حالياً
         api_key=groq_api_key
     )
     return llm
