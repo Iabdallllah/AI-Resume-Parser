@@ -1,4 +1,6 @@
-# ATS CV Dashboard - Streamlit Frontend
+النسخة النهائية# ATS CV Dashboard - Streamlit Frontend
+
+Live Demo: https://cv-parser.streamlit.app/
 
 A modular Streamlit frontend for an ATS (Applicant Tracking System) with CV processing capabilities. The application provides a professional interface for resume analysis, job matching, analytics, and backend integration.
 
@@ -87,7 +89,7 @@ streamlit run app.py
 
 Application will be available at:
 
-```
+```text
 http://localhost:8501
 ```
 
