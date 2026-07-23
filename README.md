@@ -1,4 +1,4 @@
-النسخة النهائية# ATS CV Dashboard - Streamlit Frontend
+# ATS CV Dashboard - Streamlit Frontend
 
 Live Demo: https://cv-parser.streamlit.app/
 
