@@ -7,6 +7,9 @@ from pydantic import BaseModel, Field
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_groq import ChatGroq
 
+# ==========================================
+# 1. Page Configuration & UI Setup
+# ==========================================
 st.set_page_config(
     page_title="AI Resume Parser",
     layout="wide",
@@ -56,6 +59,9 @@ custom_css = """
 """
 st.markdown(custom_css, unsafe_allow_html=True)
 
+# ==========================================
+# 2. Pydantic Schemas
+# ==========================================
 class EducationInfo(BaseModel):
     degree: str = Field(description="Degree obtained")
     institution: str = Field(description="Institution name")
@@ -73,17 +79,23 @@ class ResumeSchema(BaseModel):
     skills: List[str] = Field(description="List of skills")
     experience: List[ExperienceInfo] = Field(description="List of work experience details")
 
+# ==========================================
+# 3. Model Loading (Groq API)
+# ==========================================
 @st.cache_resource(show_spinner=False)
 def load_ai_model():
     groq_api_key = st.secrets["GROQ_API_KEY"]
     
     llm = ChatGroq(
         temperature=0.1, 
-        model_name="llama-3.3-70b-versatile", 
+        model_name="llama-3.3-70b-versatile",
         api_key=groq_api_key
     )
     return llm
 
+# ==========================================
+# 4. Core Functions
+# ==========================================
 def extract_text_from_pdf(uploaded_file) -> str:
     user_input = ""
     reader = pypdf.PdfReader(uploaded_file)
@@ -125,31 +137,34 @@ def process_resume(text: str, llm):
         st.error(f"Failed to parse the extracted data. Error: {e}")
         return None
 
+# ==========================================
+# 5. Frontend Dashboard Structure
+# ==========================================
 def main():
     with st.sidebar:
         st.title("System Status")
         with st.status("Initializing AI Engine...", expanded=True) as status:
-            st.write("Connecting to Groq API (Mixtral 8x7B)...")
+            st.write("Connecting to AI Engine...")
             llm = load_ai_model()
-            status.update(label="AI Engine Ready ⚡", state="complete", expanded=False)
+            status.update(label="AI Engine Ready", state="complete", expanded=False)
         
         st.divider()
-        st.info("Upload a PDF resume to extract structured data instantly using Groq.")
+        st.info("Upload a PDF resume to extract structured data automatically.")
 
-    st.title("⚡ Smart Resume Parser (Powered by Groq)")
-    st.markdown("Extract structured data from candidate CVs with lightning speed.")
+    st.title("Smart Resume Parser")
+    st.markdown("Extract structured data from candidate CVs.")
 
     uploaded_file = st.file_uploader("Upload Candidate Resume (PDF)", type=["pdf"])
 
     if uploaded_file is not None:
         if st.button("Process Resume", type="primary", use_container_width=True):
-            with st.spinner("Analyzing document structure instantly..."):
+            with st.spinner("Analyzing document structure..."):
                 raw_text = extract_text_from_pdf(uploaded_file)
                 llm = load_ai_model()
                 parsed_data = process_resume(raw_text, llm)
                 
                 if parsed_data:
-                    st.success("Resume processed successfully in record time!")
+                    st.success("Resume processed successfully.")
                     
                     col1, col2 = st.columns([1, 2])
                     
