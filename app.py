@@ -7,9 +7,6 @@ from pydantic import BaseModel, Field
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_groq import ChatGroq
 
-# ==========================================
-# 1. Page Configuration & UI Setup
-# ==========================================
 st.set_page_config(
     page_title="AI Resume Parser",
     layout="wide",
@@ -59,9 +56,6 @@ custom_css = """
 """
 st.markdown(custom_css, unsafe_allow_html=True)
 
-# ==========================================
-# 2. Pydantic Schemas
-# ==========================================
 class EducationInfo(BaseModel):
     degree: str = Field(description="Degree obtained")
     institution: str = Field(description="Institution name")
@@ -79,23 +73,17 @@ class ResumeSchema(BaseModel):
     skills: List[str] = Field(description="List of skills")
     experience: List[ExperienceInfo] = Field(description="List of work experience details")
 
-# ==========================================
-# 3. Model Loading (Groq API)
-# ==========================================
 @st.cache_resource(show_spinner=False)
 def load_ai_model():
     groq_api_key = st.secrets["GROQ_API_KEY"]
     
     llm = ChatGroq(
         temperature=0.1, 
-        model_name="llama-3.3-70b-versatile",  # الموديل المحدث والمدعوم حالياً
+        model_name="llama-3.3-70b-versatile", 
         api_key=groq_api_key
     )
     return llm
 
-# ==========================================
-# 4. Core Functions
-# ==========================================
 def extract_text_from_pdf(uploaded_file) -> str:
     user_input = ""
     reader = pypdf.PdfReader(uploaded_file)
@@ -137,9 +125,6 @@ def process_resume(text: str, llm):
         st.error(f"Failed to parse the extracted data. Error: {e}")
         return None
 
-# ==========================================
-# 5. Frontend Dashboard Structure
-# ==========================================
 def main():
     with st.sidebar:
         st.title("System Status")
