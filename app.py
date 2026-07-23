@@ -92,4 +92,13 @@ def extract_text_from_pdf(uploaded_file) -> str:
     return user_input[:4000]
 
 def extract_json_block(text: str) -> str:
-    pattern = r'```json\s*(.*?)\s*
+    pattern = r'```json\s*(.*?)\s*```'
+    matches = re.findall(pattern, text, re.DOTALL)
+    if matches:
+        return matches[-1]
+    
+    pattern_fallback = r'\{.*\}'
+    matches_fallback = re.findall(pattern_fallback, text, re.DOTALL)
+    if matches_fallback:
+        return matches_fallback[-1]
+    return text
