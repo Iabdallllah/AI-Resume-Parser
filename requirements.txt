@@ -1,0 +1,25 @@
+# Core Streamlit & Data Processing
+streamlit>=1.28.0
+pandas>=2.0.0
+numpy>=1.24.0
+
+# PDF Processing
+PyPDF2>=3.0.0
+pypdf>=4.0.0
+
+# API & Utilities
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# Data Visualization
+plotly>=5.17.0
+altair>=5.0.0
+
+# ML/NLP (Required for AI Resume Parser)
+transformers>=4.30.0
+torch>=2.0.0
+accelerate>=0.20.0
+bitsandbytes>=0.40.0
+langchain>=0.1.0
+langchain-core>=0.1.0
+pydantic>=2.0.0
